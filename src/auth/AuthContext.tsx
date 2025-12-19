@@ -1,5 +1,4 @@
-// src/auth/AuthContext.tsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type User = {
   username: string;
@@ -8,43 +7,44 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (token: string) => void;
+  login: (token: string, userData: User) => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
+// EXPORTACIÓN 1: El Hook (Asegúrate de que el nombre sea exacto)
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth debe usarse dentro de un AuthProvider");
+  }
+  return context;
+};
 
-    try {
-      // Decodificamos el payload del JWT
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      
-      return {
-        username: payload.sub,
-        role: payload.role, 
-      };
-    } catch (error) {
-      console.error("Token inválido", error);
-      localStorage.removeItem("token");
-      return null;
+// EXPORTACIÓN 2: El Provider
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      try {
+        return JSON.parse(savedUser);
+      } catch {
+        return null;
+      }
     }
+    return null;
   });
 
-  const login = (token: string) => {
+  const login = (token: string, userData: User) => {
     localStorage.setItem("token", token);
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    setUser({
-      username: payload.sub,
-      role: payload.role,
-    });
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
@@ -54,12 +54,3 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
-// ⬇️ ESTA ES LA PARTE QUE FALTABA ⬇️
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth debe usarse dentro de un AuthProvider");
-  }
-  return context;
-};

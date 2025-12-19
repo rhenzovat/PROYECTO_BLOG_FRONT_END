@@ -25,5 +25,10 @@ export const blogService = {
     update: async (id: number, blogData: any) => {
         const res = await api.put(`/blogs/${id}`, blogData);
         return res.data;
-    }
+    },
+    
+    getById: async (id: number) => {
+  const res = await api.get(`/blogs/${id}`); // Verifica si tu backend usa /api/blogs/{id}
+  return res.data;
+},
 };

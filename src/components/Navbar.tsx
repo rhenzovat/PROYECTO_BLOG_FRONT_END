@@ -6,70 +6,101 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Limpia el localStorage y el estado del usuario
-    navigate("/login"); // Te manda al login inmediatamente
+    logout();
+    navigate("/login");
   };
 
-  // Si no hay usuario logueado, no mostramos la barra (opcional)
   if (!user) return null;
 
+  const isAdmin = user.role === "ADMIN" || user.role === "ROLE_ADMIN";
+
   return (
-    <nav style={styles.nav}>
-      <div style={styles.brand}>
-        <Link to="/" style={styles.link}>📰 BlogApp</Link>
-      </div>
-      
-      <div style={styles.links}>
-        <Link to="/" style={styles.link}>🏠 Inicio</Link>
-        <Link to="/create" style={styles.link}>➕ Crear Post</Link> {/* NUEVO BOTÓN */}
-        {user.role === "ADMIN" && (
-            <Link to="/admin" style={styles.link}>🛠️ Admin</Link>
-        )}
+    <nav style={navStyles.nav}>
+      <div style={navStyles.leftSection}>
+        <Link to="/" style={navStyles.brand}>
+          <span style={{ fontSize: '1.5rem' }}>🚀</span> BlogApp
+        </Link>
+        <div style={navStyles.mainLinks}>
+          <Link to="/" style={navStyles.link}>Inicio</Link>
+          <Link to="/create" style={navStyles.link}>Crear Post</Link>
+          {isAdmin && (
+            <Link to="/usuarios" style={navStyles.adminBadge}>
+              Gestionar Usuarios
+            </Link>
+          )}
         </div>
+      </div>
 
-      <div style={styles.menu}>
-        {/* Solo el ADMIN ve el Panel de Control */}
-        {user.role === "ADMIN" && (
-          <Link to="/admin" style={styles.link}>🛠️ Admin Panel</Link>
-        )}
-        
-        <div style={styles.userSection}>
-          <span style={styles.userInfo}>
-            👤 <strong>{user.username}</strong> ({user.role})
+      <div style={navStyles.userSection}>
+        <div style={navStyles.userInfo}>
+          <span style={navStyles.userName}>{user.username}</span>
+          <span style={isAdmin ? navStyles.roleAdmin : navStyles.roleUser}>
+            {user.role}
           </span>
-          <button onClick={handleLogout} style={styles.logoutBtn}>
-            Cerrar Sesión
-          </button>
         </div>
+        <button onClick={handleLogout} style={navStyles.logoutBtn}>
+          Cerrar Sesión
+        </button>
       </div>
-
-      
     </nav>
   );
 }
 
-const styles = {
+const navStyles: any = {
   nav: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px 20px',
-    backgroundColor: '#2c3e50',
+    padding: '0 40px',
+    height: '70px',
+    backgroundColor: '#1a202c', // Gris muy oscuro/negro moderno
     color: 'white',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
+    boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
   },
-  brand: { fontSize: '1.5rem', fontWeight: 'bold' },
-  menu: { display: 'flex', alignItems: 'center', gap: '20px' },
-  link: { color: 'white', textDecoration: 'none', fontWeight: '500' },
-  userSection: { display: 'flex', alignItems: 'center', gap: '15px', borderLeft: '1px solid #555', paddingLeft: '15px' },
-  userInfo: { fontSize: '0.9rem' },
+  leftSection: { display: 'flex', alignItems: 'center', gap: '40px' },
+  brand: { 
+    fontSize: '1.3rem', 
+    fontWeight: 'bold', 
+    color: 'white', 
+    textDecoration: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  mainLinks: { display: 'flex', alignItems: 'center', gap: '25px' },
+  link: { 
+    color: '#cbd5e0', 
+    textDecoration: 'none', 
+    fontSize: '0.95rem', 
+    fontWeight: '500',
+    transition: 'color 0.2s'
+  },
+  adminBadge: {
+    backgroundColor: '#ecc94b',
+    color: '#1a202c',
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '0.85rem',
+    fontWeight: 'bold',
+    textDecoration: 'none'
+  },
+  userSection: { display: 'flex', alignItems: 'center', gap: '20px' },
+  userInfo: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' },
+  userName: { fontSize: '0.9rem', fontWeight: 'bold' },
+  roleAdmin: { fontSize: '0.75rem', color: '#f6ad55', fontWeight: 'bold' },
+  roleUser: { fontSize: '0.75rem', color: '#63b3ed', fontWeight: 'bold' },
   logoutBtn: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#e53e3e',
     color: 'white',
     border: 'none',
-    padding: '6px 12px',
-    borderRadius: '4px',
+    padding: '8px 16px',
+    borderRadius: '6px',
     cursor: 'pointer',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: '0.85rem',
+    transition: 'background 0.2s'
   }
 };
