@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 
 export default function CommentSection({ blogId, comments, onCommentAdded }: any) {
   const [text, setText] = useState("");
@@ -16,11 +16,11 @@ export default function CommentSection({ blogId, comments, onCommentAdded }: any
     try {
       if (editingId) {
         // Lógica para EDITAR (Punto 5)
-        await api.put(`/blogs/${blogId}/comments/${editingId}`, { content: text });
+        await api.put(`api/blogs/${blogId}/comments/${editingId}`, { content: text });
         setEditingId(null);
       } else {
         // Lógica para CREAR (Punto 4)
-        await api.post(`/blogs/${blogId}/comments`, { content: text });
+        await api.post(`api/blogs/${blogId}/comments`, { content: text });
       }
       setText("");
       onCommentAdded(); // Refresca la lista en el componente padre
@@ -32,7 +32,7 @@ export default function CommentSection({ blogId, comments, onCommentAdded }: any
   const handleDelete = async (commentId: number) => {
     if (!window.confirm("¿Estás seguro de eliminar este comentario?")) return;
     try {
-      await api.delete(`/blogs/${blogId}/comments/${commentId}`);
+      await api.delete(`api/blogs/${blogId}/comments/${commentId}`);
       onCommentAdded();
     } catch (err) {
       alert("No tienes permisos o el comentario ya no existe.");

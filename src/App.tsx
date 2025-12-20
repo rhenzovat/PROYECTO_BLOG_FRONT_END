@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import LoginPage from "./auth/LoginPage";
-import BlogHome from "./blogs/BlogHome";
-import AdminPanel from "./admin/AdminPanel";
-import ProtectedRoute from "./auth/ProtectedRoute";
-import BlogCreate from "./blogs/BlogCreate";
-import BlogEdit from "./blogs/BlogEdit";
-import BlogDetail from "./blogs/BlogDetail";
-import UserList from "./blogs/UserList";
+import LoginPage from "./features/auth/LoginPage";
+import BlogHome from "./pages/BlogHome";
+// import AdminPanel from './admin/AdminPanel';
+// import ProtectedRoute from "./auth/ProtectedRoute";
+import BlogCreate from "./pages/BlogCreate";
+import BlogEdit from "./pages/BlogEdit";
+import BlogDetail from "./pages/BlogDetail";
+import UserList from "./features/admin/UserList";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -27,14 +28,14 @@ export default function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/admin"
           element={
             <ProtectedRoute role="ADMIN">
-              <AdminPanel />
+              <AdminPanel/>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
           path="/create"

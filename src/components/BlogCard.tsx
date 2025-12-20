@@ -1,7 +1,8 @@
 import type { BlogHome } from "../types/Blog";
-import { useAuth } from "../auth/AuthContext";
-import { blogService } from "./blogService";
+import { useAuth } from "../features/auth/AuthContext";
+// import { blogService } from "../blogs/blogService";
 import { useNavigate } from "react-router-dom";
+import { blogService } from "../features/blogs/blogService";
 
 interface BlogCardProps {
   blog: BlogHome;

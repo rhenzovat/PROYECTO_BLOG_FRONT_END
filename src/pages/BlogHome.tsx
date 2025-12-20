@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { blogService } from "./blogService";
+// import { blogService } from "./blogService";
 // import { BlogHome, CategoryMap } from "../types/Blog";
-import BlogCard from "./BlogCard";
+import BlogCard from "../components/BlogCard";
 import { Category, type BlogHome } from "../types/Blog";
+import { blogService } from "../features/blogs/blogService";
 
 export default function BlogHome() {
   const [blogs, setBlogs] = useState<BlogHome[]>([]);

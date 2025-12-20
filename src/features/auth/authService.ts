@@ -1,4 +1,6 @@
-import { api } from "../services/api";
+// import { api } from "../../services/api";
+
+import api from "../../api/axios";
 
 export const authService = {
   login: async (username: string, password: string) => {
