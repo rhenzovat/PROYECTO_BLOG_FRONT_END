@@ -6,7 +6,7 @@ export default function UserList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/users")
+    api.get("api/users")
       .then(res => {
         setUsers(res.data);
         setLoading(false);
