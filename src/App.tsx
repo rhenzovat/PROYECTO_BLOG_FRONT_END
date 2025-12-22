@@ -9,6 +9,7 @@ import BlogEdit from "./pages/BlogEdit";
 import BlogDetail from "./pages/BlogDetail";
 import UserList from "./features/admin/UserList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RegisterPage from "./features/auth/RegisterPage";
 
 export default function App() {
   return (
@@ -54,6 +55,8 @@ export default function App() {
 } />
 
       <Route path="/usuarios" element={<UserList />} />
+
+      <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );
