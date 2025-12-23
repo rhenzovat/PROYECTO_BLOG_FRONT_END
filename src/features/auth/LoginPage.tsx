@@ -71,9 +71,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div style={styles.footer}>
+        {/* <div style={styles.footer}>
           <p>¿Olvidaste tu contraseña? <span style={{ color: '#3182ce', cursor: 'pointer' }}>Click aquí</span></p>
-        </div>
+        </div> */}
         <div style={styles.footer}>
           <p>¿No tienes cuenta? <Link to="/register" style={{color: '#3182ce', fontWeight: 'bold', textDecoration: 'none'}}>Regístrate gratis</Link></p>
         </div>
